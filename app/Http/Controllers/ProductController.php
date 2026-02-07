@@ -19,6 +19,20 @@ class ProductController extends Controller
         return Product::findOrFail($id);
     }
 
+    // GET /products/related/{id}
+    public function related($id)
+    {
+        $product = Product::findOrFail($id);
+
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->take(10)
+            ->get();
+
+        return response()->json($relatedProducts);
+    }
+
+
     // POST /products
     public function store(Request $request)
     {
