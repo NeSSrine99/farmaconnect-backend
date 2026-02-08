@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/test-db', function() {
+    try {
+        DB::connection()->getPdo();
+        return 'DB connected!';
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+});
+
 
 // Route::group(['middleware' => ['auth', 'role:admin']], function() {
 //     Route::get('/admin/dashboard', [AdminController::class, 'index']);
