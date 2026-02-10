@@ -6,6 +6,7 @@ use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,4 +37,15 @@ Route::middleware('clerk.auth')->group(function () {
 
     Route::get('/user', [UserController::class, 'index']);
     Route::post('/orders', [OrderController::class, 'store']);
+});
+
+
+//test route
+Route::get('/debug-db', function () {
+    try {
+        DB::connection()->getPdo();
+        return 'DB CONNECTED ✅';
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
 });
