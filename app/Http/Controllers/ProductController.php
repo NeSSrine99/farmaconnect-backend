@@ -36,6 +36,12 @@ class ProductController extends Controller
     // POST /products
     public function store(Request $request)
     {
+
+        $user = $request->user();
+        if (!in_array($user->role, ['admin', 'pharmacien'])) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $data = $request->validate([
             'name' => 'required|string',
             'category' => 'nullable|string',
@@ -98,6 +104,8 @@ class ProductController extends Controller
         $product->update($data);
         return response()->json($product);
     }
+
+
 
     // DELETE /products/{id}
     public function destroy($id)

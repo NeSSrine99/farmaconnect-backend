@@ -49,3 +49,8 @@ Route::get('/debug-db', function () {
         return $e->getMessage();
     }
 });
+
+
+Route::middleware(['auth:sanctum', 'role:admin,pharmacien'])->group(function () {
+    Route::post('/products', [ProductController::class, 'store']);
+});
